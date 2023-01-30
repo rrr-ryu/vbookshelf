@@ -22,10 +22,13 @@ return new class extends Migration
             $table->string('title');
             $table->text('url');
             $table->foreignId('type_id')
+            ->nullable()
             ->constrained();
             $table->foreignId('site_name_id')
+            ->nullable()
             ->constrained();
             $table->foreignId('genre_id')
+            ->nullable()
             ->constrained();
             $table->boolean('finish');
             $table->integer('read_page');

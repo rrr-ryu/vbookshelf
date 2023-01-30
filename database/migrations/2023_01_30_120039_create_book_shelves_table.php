@@ -16,10 +16,11 @@ return new class extends Migration
         Schema::create('book_shelves', function (Blueprint $table) {
             $table->id();
             $table->foreignId('book_id')
+            ->nullable()
             ->constrained();
             $table->foreignId('shelf_id')
             ->constrained();
-            $table->timestamps();
+            $table->integer('place');
         });
     }
 
