@@ -18,7 +18,6 @@ class BookSeeder extends Seeder
         DB::table('books')->insert([
             [
                 'user_id' => 1,
-                'title' => 'wood',
                 'title' => 'test_title',
                 'url' => 'https://www.test',
                 'type_id' => 1,
