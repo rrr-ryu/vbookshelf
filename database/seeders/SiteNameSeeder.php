@@ -17,6 +17,9 @@ class SiteNameSeeder extends Seeder
     {
         DB::table('site_names')->insert([
             [
+                'name' => ''
+            ],
+            [
                 'name' => '小説家になろう'
             ],
             [

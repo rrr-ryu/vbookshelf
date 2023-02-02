@@ -17,7 +17,13 @@ class TypeSeeder extends Seeder
     {
         DB::table('types')->insert([
             [
+                'name' => ''
+            ],
+            [
                 'name' => '小説'
+            ],
+            [
+                'name' => '漫画'
             ],
         ]);
     }
