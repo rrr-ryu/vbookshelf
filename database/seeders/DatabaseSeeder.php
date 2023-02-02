@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             BookColorSeeder::class,
             ShelfColorSeeder::class,
             ShelfSeeder::class,
-            // BookSeeder::class,
+            BookSeeder::class,
         ]);
 
         Book::factory(10)->create();

@@ -19,9 +19,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard',[BookController::class, 'index'])
+->middleware(['auth', 'verified'])
+->name('books.index');
 
 Route::resource('books', BookController::class)->middleware('auth');
 
