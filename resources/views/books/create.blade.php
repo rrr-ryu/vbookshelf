@@ -1,4 +1,16 @@
-<x-guest-layout>
+<x-app-layout>
+  <x-slot name="header">
+    <div class="space-x-8 -my-px ml-10 flex md:hidden">
+      <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')">
+          本一覧
+      </x-nav-link>
+      <x-nav-link :href="route('books.create')" :active="request()->routeIs('books.create')">
+          本を登録
+      </x-nav-link>
+  </div>
+  </x-slot>
+  
+  <div class="min-h-screen flex flex-col p-6 sm:justify-center items-center pt-6 sm:pt-0">
   <form method="POST" action="{{ route('books.store') }}">
       @csrf
 
@@ -59,8 +71,8 @@
       <div class="mt-2">
         <x-input-label for="finish" :value="__('Finish')" />
         <div class="w-1/2 flex justify-around text-xs">
-          <div><input type="radio" name="finish" value="1" class="mt-1 mr-2" checked>未完</div>
-          <div><input type="radio" name="finish" value="0" class="mt-1 mr-2" >完結</div>
+          <div><input type="radio" name="finish" value="0" class="mt-1 mr-2" checked>未完</div>
+          <div><input type="radio" name="finish" value="1" class="mt-1 mr-2" >完結</div>
         </div>        
         <x-input-error :messages="$errors->get('finish')" class="mt-1" />
       </div>  
@@ -100,6 +112,11 @@
         <x-primary-button class="ml-4">
             {{ __('Register') }}
         </x-primary-button>
+        <div class="flex">
+          <label for="continue_param" class="text-xs mr-1">続けて登録する</label>
+          <input id="continue_param" type="checkbox" name="continue_param" value="1" checked></div>
+        </div>
       </div>
   </form>
-</x-guest-layout>
+  </div>
+</x-app-layout>

@@ -20,10 +20,11 @@ class BookController extends Controller
      * @return \Illuminate\Http\Response
      */
     
-     public function index()
-    {
+     public function index(Request $request)
+     {
         $user = Auth::user();
-        $books = Book::where('user_id', $user->id)->paginate(10);
+        $title = $request->get('title');
+        $books = Book::where('user_id', $user->id)->where('title', 'like', "%{$title}%")->paginate(10);
         
         return view('books.index', compact('books','user'));
     }
@@ -68,9 +69,17 @@ class BookController extends Controller
             'assessment' => $request->assessment,
             'book_color_id' => 1,
         ]);
-
-        $books = Book::where('user_id', $user->id)->paginate(10);
-        return view('books.index', compact('books','user'));
+        if ($request->continue_param == 1) {
+            $continue = 1;
+            $types = Type::all();
+            $siteNames = SiteName::all();
+            $genres = Genre::all();
+    
+            return view('books.create', compact('types','siteNames', 'genres', 'continue'));
+        }else{
+            $books = Book::where('user_id', $user->id)->paginate(10);
+            return view('books.index', compact('books','user'));
+        };
     }
 
     /**
@@ -92,7 +101,13 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        //
+        $book = Book::findOrFail($id);
+        $types = Type::all();
+        $siteNames = SiteName::all();
+        $genres = Genre::all();
+        
+        
+        return view('books.edit', compact('book','types','siteNames', 'genres'));
     }
 
     /**
@@ -104,7 +119,23 @@ class BookController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = $request->user();
+        
+        $book = Book::findOrFail($id);
+        $book->title = $request->title;
+        $book->url = $request->url;
+        $book->type_id = $request->type_id; 
+        $book->site_name_id = $request->site_name_id;
+        $book->genre_id = $request->genre_id;
+        $book->finish = $request->finish;
+        $book->read_page = $request->read_page;
+        $book->all_page = $request->all_page;
+        $book->assessment = $request->assessment;
+        $book->save();
+
+        $books = Book::where('user_id', $user->id)->paginate(10);
+        return redirect()
+        ->route('books.index', compact('books','user'));
     }
 
     /**
@@ -117,4 +148,5 @@ class BookController extends Controller
     {
         //
     }
+
 }

@@ -27,6 +27,7 @@ class Book extends Model
         'all_page',
         'assessment',
         'book_color_id',
+        'continue_param',
     ];
 
     // リレーション

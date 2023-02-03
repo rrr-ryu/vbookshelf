@@ -19,6 +19,18 @@
   </div>
   {{-- タイトルクリックで表示するオーバーレイと内容 --}}
 
+  {{-- タイトル検索フォーム --}}
+  <form action="{{ route('books.index') }}" method="get">
+    <div class="form-group flex justify-center mt-2">
+        <x-text-input type="text" class="inline-block" id="title" name="title" />
+        <x-primary-button class="ml-4 py-2 px-2">
+          検索
+      </x-primary-button>
+    </div>
+  </form>
+  {{-- タイトル検索フォーム --}}
+
+  {{-- 本一覧表示 --}}
   <section class="text-gray-800 bg-white body-font overflow-hidden">
     <div class="container px-5 py-10 mx-auto">
       <div class="-my-8">
@@ -36,7 +48,11 @@
               <div class="basis-1/6 md:basis-1/12 border">{{ $book->type->name }}</div>
               <div class="hidden md:basis-2/12 md:block border">{{ $book->site_name->name }}</div>
               <div class="basis-2/6 md:basis-2/12 border">{{ $book->genre->name }}</div>
+              @if ($book->finish === 0)
+              <div class="basis-1/6 md:basis-1/12 border">未完</div>
+              @elseif ($book->finish === 1)
               <div class="basis-1/6 md:basis-1/12 border">完結</div>
+              @endif
               <div class="hidden basis-2/6 md:basis-2/12 border md:flex text-center">
                 <div class="flex-1">評価値:</div>
                 <div class="flex-1 flex">
@@ -57,7 +73,7 @@
           </div>
           <div class="md:hidden text-center text-xs flex flex-col basis-12 ml-2">
             <a class="mb-2 leading-7 border" target="_blank" href="{{ $book->url }}">読む</a>
-            <a class="leading-7 border" href="#">編集</a>
+            <a class="leading-7 border" href="{{ route('books.edit', ['book' => $book->id ])}}">編集</a>
           </div>
         </div>
         @endforeach
