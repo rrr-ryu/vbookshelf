@@ -23,11 +23,12 @@ class BookController extends Controller
     
      public function index(Request $request)
      {
-        $user = Auth::user();
-        $title = $request->get('title');
-        $books = Book::where('user_id', $user->id)->where('title', 'like', "%{$title}%")->paginate(10);
+         $user = Auth::user();
+         $title = $request->get('title');
+         $books = Book::where('user_id', $user->id)->where('title', 'like', "%{$title}%")->paginate(10);
+         $shelf = Shelf::where('user_id', $user->id)->first();
         
-        return view('books.index', compact('books','user'));
+        return view('books.index', compact('books','user', 'shelf'));
     }
 
     /**
@@ -37,13 +38,14 @@ class BookController extends Controller
      */
     public function create()
     {
-
+        $user = Auth::user();
         $types = Type::all();
         $siteNames = SiteName::all();
         $genres = Genre::all();
+        $shelf = Shelf::where('user_id', $user->id)->first();
 
 
-        return view('books.create', compact('types','siteNames', 'genres'));
+        return view('books.create', compact('types','siteNames', 'genres', 'shelf'));
 
     }
 
@@ -56,6 +58,7 @@ class BookController extends Controller
     public function store(Request $request)
     {
         $user = $request->user();
+        $shelf = Shelf::where('user_id', $user->id)->first();
         
         Book::create([
             'user_id' => $user->id,
@@ -80,7 +83,7 @@ class BookController extends Controller
             return view('books.create', compact('types','siteNames', 'genres', 'continue'));
         }else{
             $books = Book::where('user_id', $user->id)->paginate(10);
-            return view('books.index', compact('books','user'));
+            return view('books.index', compact('books','user', 'shelf'));
         };
     }
 
@@ -136,8 +139,9 @@ class BookController extends Controller
         $book->save();
 
         $books = Book::where('user_id', $user->id)->paginate(10);
+        $shelf = Shelf::where('user_id', $user->id)->first();
         return redirect()
-        ->route('books.index', compact('books','user'));
+        ->route('books.index', compact('books','user', 'shelf'));
     }
 
     /**

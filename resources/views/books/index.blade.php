@@ -7,6 +7,9 @@
       <x-nav-link :href="route('books.create')" :active="request()->routeIs('books.create')">
           本を登録
       </x-nav-link>
+      <x-nav-link :href="route('shelves.show', ['shelf' => $shelf->id ])" :active="request()->routeIs('shelves.show')">
+          本棚を見る
+      </x-nav-link>
   </div>
   </x-slot>
 

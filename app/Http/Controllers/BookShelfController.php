@@ -20,7 +20,8 @@ class BookShelfController extends Controller
         $exists = $bookshelves->where('book_id', $book_id)->first();
         if ($exists) {
             $books = Book::where('user_id', $user->id)->paginate(10);
-            return view('books.index', compact('books','user'));
+            $shelf = Shelf::where('user_id', $user->id)->first();
+            return view('books.index', compact('books','user', 'shelf'));
         } 
 
         $place_num_array = [];
@@ -58,6 +59,7 @@ class BookShelfController extends Controller
             ]);
         }
         $books = Book::where('user_id', $user->id)->paginate(10);
-        return view('books.index', compact('books','user'));
+        $shelf = Shelf::where('user_id', $user->id)->first();
+        return view('books.index', compact('books','user', 'shelf'));
     }
 }
