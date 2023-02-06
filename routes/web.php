@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\BookShelfController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +26,8 @@ Route::get('/dashboard',[BookController::class, 'index'])
 
 Route::resource('books', BookController::class)->middleware('auth');
 
+Route::post('/bookshelves',[BookShelfController::class, 'store'])->name('bookshelves.store')
+->middleware('auth');
 
 
 Route::middleware('auth')->group(function () {

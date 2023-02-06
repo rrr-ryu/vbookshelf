@@ -11,6 +11,11 @@ class Shelf extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'shelf_color_id',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

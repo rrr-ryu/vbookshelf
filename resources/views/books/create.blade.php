@@ -78,19 +78,19 @@
       </div>  
 
       <!-- Page -->
-      <div class="flex w-1/2 mt-1">
+      <div class="flex w-2/3 mt-1">
         <div>
           <x-input-label for="read_page" :value="__('ReadPage')"/>
-          <x-text-input id="read_page" class="block mt-1 w-4/5" type="text" name="read_page" :value="old('read_page')" required/>
+          <x-text-input id="read_page" class="block mt-1 w-full" type="text" name="read_page" :value="old('read_page')" required/>
           <x-input-error :messages="$errors->get('read_page')" class="mt-1" />
         </div>
         <div class="block font-medium text-xs md:text-sm text-gray-700">
           <p>/</p>
-          <p class="text-lg mr-2">/</p>
+          <p class="leading-10 text-lg mx-2">/</p>
         </div>
         <div>
             <x-input-label for="all_page" :value="__('AllPage')"/>
-            <x-text-input id="all_page" class="block mt-1 w-4/5" type="text" name="all_page" :value="old('all_page')" required/>
+            <x-text-input id="all_page" class="block mt-1 w-full" type="text" name="all_page" :value="old('all_page')" required/>
             <x-input-error :messages="$errors->get('all_page')" class="mt-1" />
         </div>
       </div>

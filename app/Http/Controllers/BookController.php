@@ -11,6 +11,7 @@ use App\Models\SiteName;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Type;
 use App\Http\Requests\BookRequest;
+use App\Models\Shelf;
 
 class BookController extends Controller
 {
@@ -69,6 +70,7 @@ class BookController extends Controller
             'assessment' => $request->assessment,
             'book_color_id' => 1,
         ]);
+
         if ($request->continue_param == 1) {
             $continue = 1;
             $types = Type::all();
