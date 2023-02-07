@@ -15,7 +15,37 @@ class ShelfController extends Controller
     {
         $user = Auth::user();
         $shelf = Shelf::where('user_id', $user->id)->first();
-       
-       return view('shelves.show', compact('user', 'shelf'));
+        $bookshelves = BookShelf::where('shelf_id', $shelf->id)->get();
+
+        
+        $result = array();
+        for ($i = 1; $i <= 48; $i++) {
+            $bookshelf = $bookshelves->firstWhere('place_num', $i);
+            if ($bookshelf) {
+                $book = Book::where('id',$bookshelf->book_id)->first();
+                $result[$i] = $book;
+            } else {
+                $result[$i] = null;
+            }
+        }
+
+        $group1 = [];
+        $group2 = [];
+        $group3 = [];
+        $group4 = [];
+
+        foreach ($result as $key => $value) {
+            if ($key >= 1 && $key <= 12) {
+                $group1[] = $value;
+            } elseif ($key >= 13 && $key <= 24) {
+                $group2[] = $value;
+            } elseif ($key >= 25 && $key <= 36) {
+                $group3[] = $value;
+            } elseif ($key >= 37 && $key <= 48) {
+                $group4[] = $value;
+            }
+        }
+
+       return view('shelves.show', compact('user', 'shelf', 'group1', 'group2', 'group3', 'group4'));
     }
 }
