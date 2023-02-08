@@ -15,12 +15,12 @@
                     {{-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link> --}}
-                    <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')">
+                    {{-- <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')">
                         本一覧
                     </x-nav-link>
                     <x-nav-link :href="route('books.create')" :active="request()->routeIs('books.create')">
                         本を登録
-                    </x-nav-link>
+                    </x-nav-link> --}}
                 </div>
             </div>
 

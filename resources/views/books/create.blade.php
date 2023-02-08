@@ -1,6 +1,6 @@
 <x-app-layout>
   <x-slot name="header">
-    <div class="space-x-8 -my-px ml-10 flex md:hidden">
+    <div class="space-x-8 -my-px ml-10 flex">
       <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')">
           本一覧
       </x-nav-link>
@@ -10,7 +10,7 @@
       <x-nav-link :href="route('shelves.show', ['shelf' => $shelf->id ])" :active="request()->routeIs('shelves.show')">
           本棚を見る
       </x-nav-link>
-  </div>
+    </div>
   </x-slot>
   
   <div class="min-h-screen flex flex-col p-6 sm:justify-center items-center pt-6 sm:pt-0">

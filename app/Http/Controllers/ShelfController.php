@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Book;
 use App\Models\BookShelf;
 use App\Models\Shelf;
+use App\Models\BookColor;
 
 
 class ShelfController extends Controller
@@ -16,8 +17,9 @@ class ShelfController extends Controller
         $user = Auth::user();
         $shelf = Shelf::where('user_id', $user->id)->first();
         $bookshelves = BookShelf::where('shelf_id', $shelf->id)->get();
+        $book_colors = BookColor::all();
 
-        
+        //place_numの順番に$book入れて、空いてる番号にはnullを入れる
         $result = array();
         for ($i = 1; $i <= 48; $i++) {
             $bookshelf = $bookshelves->firstWhere('place_num', $i);
@@ -29,6 +31,7 @@ class ShelfController extends Controller
             }
         }
 
+        //$resultを4つに分ける
         $group1 = [];
         $group2 = [];
         $group3 = [];
@@ -46,6 +49,7 @@ class ShelfController extends Controller
             }
         }
 
-       return view('shelves.show', compact('user', 'shelf', 'group1', 'group2', 'group3', 'group4'));
+       return view('shelves.show', compact('user', 'shelf', 'book_colors', 'group1', 'group2', 'group3', 'group4'));
     }
+
 }

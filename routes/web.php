@@ -25,12 +25,14 @@ Route::get('/dashboard',[BookController::class, 'index'])
 ->middleware(['auth', 'verified'])
 ->name('books.index');
 
-Route::resource('books', BookController::class)->middleware('auth');
+Route::middleware('auth')->group(function () {
+    Route::resource('books', BookController::class)->middleware('auth');
+    Route::put('/books/{book}/bookshelves', [BookController::class, 'color_update'])->name('books.color_update');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/shelves/{shelf}',[ShelfController::class, 'show'])->name('shelves.show');
 });
-
 Route::middleware('auth')->group(function () {
     Route::post('/bookshelves',[BookShelfController::class, 'store'])->name('bookshelves.store');
 });
