@@ -1,13 +1,16 @@
 <x-app-layout>
   <x-slot name="header">
-    <div class="space-x-8 -my-px ml-10 flex md:hidden">
+    <div class="space-x-8 -my-px ml-10 flex">
       <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')">
           本一覧
       </x-nav-link>
       <x-nav-link :href="route('books.create')" :active="request()->routeIs('books.create')">
           本を登録
       </x-nav-link>
-  </div>
+      <x-nav-link :href="route('shelves.show', ['shelf' => $shelf->id ])" :active="request()->routeIs('shelves.show')">
+          本棚を見る
+      </x-nav-link>
+    </div>
   </x-slot>
   
   <div class="min-h-screen flex flex-col p-6 sm:justify-center items-center pt-6 sm:pt-0">
@@ -78,19 +81,19 @@
       </div>  
 
       <!-- Page -->
-      <div class="flex w-1/2 mt-1">
+      <div class="flex w-2/3 mt-1">
         <div>
           <x-input-label for="read_page" :value="__('ReadPage')"/>
-          <x-text-input id="read_page" class="block mt-1 w-4/5" type="text" name="read_page" :value="old('read_page')" required/>
+          <x-text-input id="read_page" class="block mt-1 w-full" type="text" name="read_page" :value="old('read_page')" required/>
           <x-input-error :messages="$errors->get('read_page')" class="mt-1" />
         </div>
         <div class="block font-medium text-xs md:text-sm text-gray-700">
           <p>/</p>
-          <p class="text-lg mr-2">/</p>
+          <p class="leading-10 text-lg mx-2">/</p>
         </div>
         <div>
             <x-input-label for="all_page" :value="__('AllPage')"/>
-            <x-text-input id="all_page" class="block mt-1 w-4/5" type="text" name="all_page" :value="old('all_page')" required/>
+            <x-text-input id="all_page" class="block mt-1 w-full" type="text" name="all_page" :value="old('all_page')" required/>
             <x-input-error :messages="$errors->get('all_page')" class="mt-1" />
         </div>
       </div>

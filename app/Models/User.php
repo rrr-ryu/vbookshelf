@@ -50,8 +50,9 @@ class User extends Authenticatable
         return $this->hasMany(Book::class);
     }
     
-    public function shelves()
+    public function shelf()
     {
-        return $this->hasMany(Shelf::class);
+        return $this->belongsTo(Shelf::class);
     }
+
 }

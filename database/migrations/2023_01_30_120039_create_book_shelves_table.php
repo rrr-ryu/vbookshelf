@@ -20,7 +20,7 @@ return new class extends Migration
             ->constrained();
             $table->foreignId('shelf_id')
             ->constrained();
-            $table->integer('place');
+            $table->integer('place_num');
         });
     }
 

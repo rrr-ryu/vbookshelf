@@ -1,13 +1,16 @@
 <x-app-layout>
   <x-slot name="header">
-    <div class="space-x-8 -my-px ml-10 flex md:hidden">
+    <div class="space-x-8 -my-px ml-10 flex">
       <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')">
           本一覧
       </x-nav-link>
       <x-nav-link :href="route('books.create')" :active="request()->routeIs('books.create')">
           本を登録
       </x-nav-link>
-  </div>
+      <x-nav-link :href="route('shelves.show', ['shelf' => $shelf->id ])" :active="request()->routeIs('shelves.show')">
+          本棚を見る
+      </x-nav-link>
+    </div>
   </x-slot>
 
   {{-- タイトルクリックで表示するオーバーレイと内容 --}}
@@ -22,7 +25,7 @@
   {{-- タイトル検索フォーム --}}
   <form action="{{ route('books.index') }}" method="get">
     <div class="form-group flex justify-center mt-2">
-        <x-text-input type="text" class="inline-block" id="title" name="title" />
+        <x-text-input type="text" class="inline-block md:h-10 md:w-1/2" id="title" name="title" />
         <x-primary-button class="ml-4 py-2 px-2">
           検索
       </x-primary-button>
@@ -31,47 +34,131 @@
   {{-- タイトル検索フォーム --}}
 
   {{-- 本一覧表示 --}}
-  <section class="text-gray-800 bg-white body-font overflow-hidden">
+  <section class="text-gray-800 bg-white body-font overflow-hidden hidden md:block">
     <div class="container px-5 py-10 mx-auto">
       <div class="-my-8">
         @foreach ( $books as $book )
         <div class="flex mb-2 py-2 border-b-2 z-0">
           <div class="container">
             <div class="flex flex-wrap mb-1 md:flex-nowrap justify-around text-base md:text-sm ">
-              <div class="element text-indigo-600 flex-auto h-6 overflow-hidden font-semibold md:text-lg md:basis-8/12 cursor-pointer">{{ $book->title }}</div>
-              <div class="hidden md:basis-1/12 md:block text-end leading-7">{{ $book->read_page }}</div>
-              <div class="leading-7 hidden md:block">/</div>
-              <div class="hidden md:basis-1/12 md:block leading-7">{{ $book->all_page }}p</div>
-              <div class="hidden md:basis-1/12 md:block text-center md:leading-7 border">読む</div>
+              <div class="element text-indigo-600 flex-auto h-6 overflow-hidden font-semibold text-lg basis-8/12 cursor-pointer">{{ $book->title }}</div>
+              <div class="basis-1/12 text-end leading-7">{{ $book->read_page }}</div>
+              <div class="leading-7">/</div>
+              <div class="basis-1/12 leading-7">{{ $book->all_page }}p</div>
+              <div class="basis-1/12 text-center leading-7 border">読む</div>
             </div>
-            <div class="flex flex-wrap mb-1 md:flex-nowrap justify-between text-xs md:text-sm text-center">
-              <div class="basis-1/6 md:basis-1/12 border">{{ $book->type->name }}</div>
-              <div class="hidden md:basis-2/12 md:block border">{{ $book->site_name->name }}</div>
-              <div class="basis-2/6 md:basis-2/12 border">{{ $book->genre->name }}</div>
+            <div class="flex mb-1 flex-nowrap justify-between text-sm text-center">
+              <div class="basis-1/12 border">{{ $book->type->name }}</div>
+              <div class="basis-2/12 border">{{ $book->site_name->name }}</div>
+              <div class="basis-2/12 border">{{ $book->genre->name }}</div>
               @if ($book->finish === 0)
-              <div class="basis-1/6 md:basis-1/12 border">未完</div>
+              <div class="basis-1/12 border">未完</div>
               @elseif ($book->finish === 1)
-              <div class="basis-1/6 md:basis-1/12 border">完結</div>
+              <div class="basis-1/12 border">完結</div>
               @endif
-              <div class="hidden basis-2/6 md:basis-2/12 border md:flex text-center">
+              <div class="basis-2/12 border flex text-center">
                 <div class="flex-1">評価値:</div>
                 <div class="flex-1 flex">
-                    <p class="star1 cursor-pointer">☆</p><p class="star2 cursor-pointer">☆</p><p class="star3 cursor-pointer">☆</p><p class="star4 cursor-pointer">☆</p><p class="star5 cursor-pointer">☆</p>                
+                  @switch($book->assessment)
+                    @case(0)
+                      <p class="star1">☆</p><p class="star2">☆</p><p class="star3">☆</p><p class="star4">☆</p><p class="star5">☆</p>
+                      @break
+                    @case(1)
+                      <p class="star1 text-yellow-300">★</p><p class="star2">☆</p><p class="star3">☆</p><p id="star4">☆</p><p class="star5">☆</p>
+                      @break
+                    @case(2)
+                      <p class="star1 text-yellow-300">★</p><p class="star2 text-yellow-300">★</p><p class="star3">☆</p><p id="star4">☆</p><p class="star5">☆</p>
+                      @break
+                    @case(3)
+                      <p class="star1 text-yellow-300">★</p><p class="star2 text-yellow-300">★</p><p class="star3 text-yellow-300">★</p><p id="star4">☆</p><p class="star5">☆</p>
+                      @break
+                    @case(4)
+                    <p class="star1 text-yellow-300">★</p><p class="star2 text-yellow-300">★</p><p class="star3 text-yellow-300">★</p><p id="star4" class="text-yellow-300">★</p><p class="star5">☆</p>
+                      @break
+                    @case(5)
+                    <p class="star1 text-yellow-300">★</p><p class="star2 text-yellow-300">★</p><p class="star3 text-yellow-300">★</p><p id="star4" class="text-yellow-300">★</p><p class="star5 text-yellow-300">★</p>
+                      @break
+                  @endswitch
                 </div>
               </div>
-              <div class="basis-2/6 md:basis-1/12 md:text-start hidden max-sm:block">☆☆☆☆☆</div>
-              <div class="hidden md:basis-1/12 md:block border">編集</div>
-              <div class="hidden md:basis-2/12 md:block border">本棚へ追加</div>
+              <a class="basis-1/12 border" href="{{ route('books.edit', ['book' => $book->id ])}}">編集</a>
+              {{-- 本棚に登録するボタン --}}
+              <form class="basis-2/12 border" method="POST" action="{{ route('bookshelves.store')}}">
+                @csrf
+                <input class="hidden" name="book_id" type="text" value="{{ $book->id }}">
+                <button type="submit">本棚に追加</button>
+              </form>
+              {{-- 本棚に登録するボタン --}}
             </div>
             <div class="flex flex-nowrap justify-around md:hidden text-xs md:text-base text-center">
               <div class="basis-2/6 border">{{ $book->site_name->name }}</div>
               <div class="basis-1/6 text-end">{{ $book->read_page }}</div>
               <div class="md:hidden">/</div>
               <div class="basis-1/6 text-start">{{ $book->all_page }}p</div>
-              <a class="basis-2/6 border" href="#">本棚へ追加</a>
             </div>
           </div>
-          <div class="md:hidden text-center text-xs flex flex-col basis-12 ml-2">
+        </div>
+        @endforeach
+        {{ $books->links() }}
+      </div>
+    </div>
+
+
+  {{-- 本一覧表示 レスポンシブ(min-764px) --}}
+  </section>
+  <section class="text-gray-800 bg-white body-font overflow-hidden md:hidden">
+    <div class="container px-5 py-10 mx-auto">
+      <div class="-my-8">
+        @foreach ( $books as $book )
+        <div class="flex mb-2 py-2 border-b-2 z-0">
+          <div class="container">
+            <div class="flex flex-wrap mb-1 justify-around text-base">
+              <div class="element text-indigo-600 flex-auto h-6 overflow-hidden font-semibold md:text-lg md:basis-8/12 cursor-pointer">{{ $book->title }}</div>
+            </div>
+            <div class="flex flex-wrap mb-1 md:flex-nowrap justify-between text-xs md:text-sm text-center">
+              <div class="basis-1/6 border">{{ $book->type->name }}</div>
+              <div class="basis-2/6 border">{{ $book->genre->name }}</div>
+              @if ($book->finish === 0)
+              <div class="basis-1/6 border">未完</div>
+              @elseif ($book->finish === 1)
+              <div class="basis-1/6 border">完結</div>
+              @endif
+              <div class="basis-2/6 flex justify-center">
+                @switch($book->assessment)
+                @case(0)
+                  <p class="star1">☆</p><p class="star2">☆</p><p class="star3">☆</p><p class="star4">☆</p><p class="star5">☆</p>
+                  @break
+                @case(1)
+                  <p class="star1 text-yellow-300">★</p><p class="star2">☆</p><p class="star3">☆</p><p id="star4">☆</p><p class="star5">☆</p>
+                  @break
+                @case(2)
+                  <p class="star1 text-yellow-300">★</p><p class="star2 text-yellow-300">★</p><p class="star3">☆</p><p id="star4">☆</p><p class="star5">☆</p>
+                  @break
+                @case(3)
+                  <p class="star1 text-yellow-300">★</p><p class="star2 text-yellow-300">★</p><p class="star3 text-yellow-300">★</p><p id="star4">☆</p><p class="star5">☆</p>
+                  @break
+                @case(4)
+                <p class="star1 text-yellow-300">★</p><p class="star2 text-yellow-300">★</p><p class="star3 text-yellow-300">★</p><p id="star4" class="text-yellow-300">★</p><p class="star5">☆</p>
+                  @break
+                @case(5)
+                <p class="star1 text-yellow-300">★</p><p class="star2 text-yellow-300">★</p><p class="star3 text-yellow-300">★</p><p id="star4" class="text-yellow-300">★</p><p class="star5 text-yellow-300">★</p>
+                  @break
+              @endswitch
+              </div>
+            </div>
+            <div class="flex flex-nowrap justify-around text-xs text-center">
+              <div class="basis-2/6 border">{{ $book->site_name->name }}</div>
+              <div class="basis-1/6 text-end">{{ $book->read_page }}</div>
+              <div>/</div>
+              <div class="basis-1/6 text-start">{{ $book->all_page }}p</div>
+              <form class="basis-2/6 border" method="POST" action="{{ route('bookshelves.store')}}">
+                @csrf
+                <input class="hidden" name="book_id" type="text" value="{{ $book->id }}">
+                <button type="submit">本棚に追加</button>
+              </form>
+            </div>
+          </div>
+          <div class="text-center text-xs flex flex-col basis-12 ml-2">
             <a class="mb-2 leading-7 border" target="_blank" href="{{ $book->url }}">読む</a>
             <a class="leading-7 border" href="{{ route('books.edit', ['book' => $book->id ])}}">編集</a>
           </div>

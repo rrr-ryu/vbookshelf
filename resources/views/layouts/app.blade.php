@@ -31,5 +31,6 @@
                 {{ $slot }}
             </main>
         </div>
+        <footer class="text-center">©️ 2023 rrr-ryu</footer>
     </body>
 </html>
