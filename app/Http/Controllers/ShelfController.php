@@ -12,8 +12,8 @@ use App\Models\BookColor;
 
 class ShelfController extends Controller
 {
-    public function show(Request $request)
-    {
+    public function show(Request $request, $shelf)
+    {   
         $user = Auth::user();
         $shelf = Shelf::where('user_id', $user->id)->first();
         $bookshelves = BookShelf::where('shelf_id', $shelf->id)->get();
@@ -51,5 +51,5 @@ class ShelfController extends Controller
 
        return view('shelves.show', compact('user', 'shelf', 'book_colors', 'group1', 'group2', 'group3', 'group4'));
     }
-
+    
 }

@@ -50,7 +50,7 @@
           style="background: gray"
         @break
         @endswitch
-        ><span class="h-screen">{{ $book->title }}</span></li>
+        ><span class="h-screen">{{ mb_substr($book->title, 0, 20) }}</span></li>
           <div class="content" style="display: none">
             <p>{{ $book->title }}</p>
             <p>ジャンル：{{ $book->genre->name}}</p>
