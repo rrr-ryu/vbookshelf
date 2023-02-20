@@ -10,10 +10,11 @@ use App\Models\Type;
 use App\Models\SiteName;
 use App\Models\Genre;
 use App\Models\BookColor;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Book extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'user_id',

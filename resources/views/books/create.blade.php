@@ -12,7 +12,19 @@
       </x-nav-link>
     </div>
   </x-slot>
-  
+    {{-- フラッシュメッセージ始まり --}}
+  {{-- 成功の時 --}}
+  @if (session('successMessage'))
+    <div class="alert alert-success text-center text-sm p-1 bg-green-200">
+      {{ session('successMessage') }}
+    </div> 
+  @endif
+  {{-- 失敗の時 --}}
+  @if (session('errorMessage'))
+    <div class="alert alert-danger text-center text-sm p-1 bg-red-400">
+      {{ session('errorMessage') }}
+    </div> 
+  @endif
   <div class="min-h-screen flex flex-col p-6 sm:justify-center items-center pt-6 sm:pt-0">
   <form method="POST" action="{{ route('books.store') }}">
       @csrf

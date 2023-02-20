@@ -37,6 +37,7 @@ return new class extends Migration
             $table->foreignId('book_color_id')
             ->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

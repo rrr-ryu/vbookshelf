@@ -101,6 +101,20 @@
         <x-primary-button class="ml-4">
             {{ __('Register') }}
         </x-primary-button>
+        <form action="{{ route('books.destroy', $book->id) }}" method="POST">
+          @csrf
+          @method('DELETE')
+          <button class="bg-gray-500 border-0 py-2 px-4 focus:outline-none hover:bg-red-600 rounded text-xs text-white" onclick="deletePost(this)" type="submit">削除</button>
+        </form>     
       </div>
   </form>
 </x-guest-layout>
+
+<script>
+  function deletePost(e) {
+    'user strict';
+    if (confirm('削除しますか？')){
+      document.getElementById('delete_'+e.delete.id).submit();
+    }
+  }
+</script>

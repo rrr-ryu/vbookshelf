@@ -21,6 +21,27 @@
     </div>
   </div>
   {{-- タイトルクリックで表示するオーバーレイと内容 --}}
+  
+  {{-- フラッシュメッセージ始まり --}}
+  {{-- 成功の時 --}}
+  @if (session('successMessage'))
+    <div class="alert alert-success text-center text-sm p-1 bg-green-200">
+      {{ session('successMessage') }}
+    </div> 
+  @endif
+  {{-- 失敗の時 --}}
+  @if (session('errorMessage'))
+    <div class="alert alert-danger text-center text-sm p-1 bg-red-400">
+      {{ session('errorMessage') }}
+    </div> 
+  @endif
+  {{-- 削除の時 --}}
+  @if (session('deleteMessage'))
+    <div class="alert alert-delete text-center text-sm p-1 bg-red-400">
+      {{ session('deleteMessage') }}
+    </div> 
+  @endif
+  {{-- フラッシュメッセージ終わり --}}
 
   {{-- タイトル検索フォーム --}}
   <form action="{{ route('books.index') }}" method="get">
@@ -83,10 +104,10 @@
               </div>
               <a class="basis-1/12 border" href="{{ route('books.edit', ['book' => $book->id ])}}">編集</a>
               {{-- 本棚に登録するボタン --}}
-              <form class="basis-2/12 border" method="POST" action="{{ route('bookshelves.store')}}">
+              <form class="bookshelf_add_form basis-2/12 border" method="POST" action="{{ route('bookshelves.store')}}">
                 @csrf
                 <input class="hidden" name="book_id" type="text" value="{{ $book->id }}">
-                <button type="submit">本棚に追加</button>
+                <button class="shelf_submit" type="submit">本棚に追加</button>
               </form>
               {{-- 本棚に登録するボタン --}}
             </div>
@@ -154,7 +175,7 @@
               <form class="basis-2/6 border" method="POST" action="{{ route('bookshelves.store')}}">
                 @csrf
                 <input class="hidden" name="book_id" type="text" value="{{ $book->id }}">
-                <button type="submit">本棚に追加</button>
+                <button class="shelf_submit" type="submit">本棚に追加</button>
               </form>
             </div>
           </div>
@@ -169,23 +190,3 @@
     </div>
   </section>
 </x-app-layout>
-
-<script>
-const elements = document.getElementsByClassName('element');
-const overlay = document.querySelector('#overlay');
-const modal = document.querySelector('#modal')
-const hidden = document.querySelector('#hidden')
-
-for (let i = 0; i < elements.length; i++) {
-  elements[i].addEventListener('click', function() {
-    hidden.innerHTML = this.innerHTML;
-    overlay.style.display = 'flex';
-  });
-}
-
-overlay.addEventListener('click', (e) => {
-  if (e.target === overlay) {
-    overlay.style.display = 'none';
-  }
-});
-</script>
