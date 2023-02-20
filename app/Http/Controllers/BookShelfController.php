@@ -21,9 +21,7 @@ class BookShelfController extends Controller
 
         // 重複した本があればindexに戻る。フラッシュで重複していることを表示
         if ($exists) {
-            $books = Book::where('user_id', $user->id)->paginate(10);
-            $shelf = Shelf::where('user_id', $user->id)->first();
-            return view('books.index', compact('books','user', 'shelf'));
+            return back();
         } 
 
         // place_numを配列化
@@ -50,9 +48,7 @@ class BookShelfController extends Controller
 
         // v.0.0では48まで登録できる
         if ($empty_num >= 49) {
-            $books = Book::where('user_id', $user->id)->paginate(10);
-            $shelf = Shelf::where('user_id', $user->id)->first();
-            return view('books.index', compact('books','user', 'shelf'));
+            return back();
         }
 
         // 本棚に１冊もなければplace_num=1で登録
@@ -72,8 +68,8 @@ class BookShelfController extends Controller
         }
         $books = Book::where('user_id', $user->id)->paginate(10);
         $shelf = Shelf::where('user_id', $user->id)->first();
-        return redirect()
-        ->route('books.index', compact('books','user', 'shelf'));
+        return back();
     }
 
+    
 }
