@@ -155,7 +155,7 @@ class BookController extends Controller
         $books = Book::where('user_id', $user->id)->paginate(10);
         $shelf = Shelf::where('user_id', $user->id)->first();
         return redirect()
-        ->route('books.index', compact('books','user', 'shelf'));
+        ->route('books.index', compact('books','user', 'shelf'))->with('updateMessage', '変更しました。');
     }
 
     /**
@@ -176,7 +176,7 @@ class BookController extends Controller
         $books = Book::where('user_id', $user->id)->paginate(10);
         $shelf = Shelf::where('user_id', $user->id)->first();
         return redirect()
-        ->route('books.index', compact('books','user', 'shelf'))->with('deleteMessage', '本を削除しました。');;
+        ->route('books.index', compact('books','user', 'shelf'))->with('deleteMessage', '本を削除しました。');
     }
 
     public function color_update(Request $request, $id)

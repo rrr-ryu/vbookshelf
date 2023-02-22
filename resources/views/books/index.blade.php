@@ -35,11 +35,35 @@
       {{ session('errorMessage') }}
     </div> 
   @endif
+  {{-- 変更の時 --}}
+  @if (session('updateMessage'))
+  <div class="alert alert-delete text-center text-sm p-1 bg-green-400">
+    {{ session('updateMessage') }}
+  </div> 
+  @endif
   {{-- 削除の時 --}}
   @if (session('deleteMessage'))
     <div class="alert alert-delete text-center text-sm p-1 bg-red-400">
       {{ session('deleteMessage') }}
     </div> 
+  @endif
+    {{-- 成功の時 --}}
+  @if (session('addShelfMessage'))
+  <div class="alert alert-success text-center text-sm p-1 bg-green-200">
+    {{ session('addShelfMessage') }}
+  </div> 
+  @endif
+
+  @if (session('overMessage'))
+  <div class="alert alert-success text-center text-sm p-1 bg-red-200">
+    {{ session('overMessage') }}
+  </div> 
+  @endif
+
+  @if (session('duplicateMessage'))
+  <div class="alert alert-success text-center text-sm p-1 bg-red-200">
+    {{ session('duplicateMessage') }}
+  </div> 
   @endif
   {{-- フラッシュメッセージ終わり --}}
 
