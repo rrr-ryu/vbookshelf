@@ -87,25 +87,27 @@
       <div class="mt-2">
         <x-input-label for="assessment" :value="__('Assessment')" />
         <select name="assessment" id="assessment" class="w-1/4 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-4 transition-colors duration-200 ease-in-out">
-          <option value="0" @if ($book === null) selected @endif >未読</option>
-          <option value="1" @if ($book === 1) selected @endif >1</option>
-          <option value="2" @if ($book === 2) selected @endif >2</option>
-          <option value="3" @if ($book === 3) selected @endif >3</option>
-          <option value="4" @if ($book === 4) selected @endif >4</option>
-          <option value="5" @if ($book === 5) selected @endif >5</option>
+          <option value="0" @if ($book->assessment === null) selected @endif >未読</option>
+          <option value="1" @if ($book->assessment === 1) selected @endif >1</option>
+          <option value="2" @if ($book->assessment === 2) selected @endif >2</option>
+          <option value="3" @if ($book->assessment === 3) selected @endif >3</option>
+          <option value="4" @if ($book->assessment === 4) selected @endif >4</option>
+          <option value="5" @if ($book->assessment === 5) selected @endif >5</option>
           </select>
         <x-input-error :messages="$errors->get('assessment')" class="mt-1" />
       </div>
       <div class="flex items-center justify-around mt-4">
         <button type="button" onclick="window.history.back()" class="bg-gray-200 border-0 py-2 px-4 focus:outline-none hover:bg-gray-400 rounded text-xs">戻る</button>
-        <x-primary-button class="ml-4">
-            {{ __('Register') }}
-        </x-primary-button>
+        <form action="{{ route('books.update', $book->id) }}" method="POST">
+          @csrf
+          @method('PUT')
+          <button class="bg-green-500 border-0 py-2 px-4 focus:outline-none hover:bg-green-400 rounded text-xs text-white" type="submit">変更</button>
+        </form>
         <form action="{{ route('books.destroy', $book->id) }}" method="POST">
           @csrf
           @method('DELETE')
           <button class="bg-gray-500 border-0 py-2 px-4 focus:outline-none hover:bg-red-600 rounded text-xs text-white" onclick="deletePost(this)" type="submit">削除</button>
-        </form>     
+        </form>
       </div>
   </form>
 </x-guest-layout>
