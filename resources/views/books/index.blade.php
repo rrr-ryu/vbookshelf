@@ -90,7 +90,7 @@
               <div class="basis-1/12 text-end leading-7">{{ $book->read_page }}</div>
               <div class="leading-7">/</div>
               <div class="basis-1/12 leading-7">{{ $book->all_page }}p</div>
-              <div class="basis-1/12 text-center leading-7 border">読む</div>
+              <a class="basis-1/12 text-center leading-7 border" target="_blank" href="{{ $book->url }}">読む</a>
             </div>
             <div class="flex mb-1 flex-nowrap justify-between text-sm text-center">
               <div class="basis-1/12 border">{{ $book->type->name }}</div>
