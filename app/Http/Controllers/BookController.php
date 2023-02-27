@@ -62,7 +62,7 @@ class BookController extends Controller
         $user = $request->user();
         $shelf = Shelf::where('user_id', $user->id)->first();
         
-        $book = Book::create([
+        Book::create([
             'user_id' => $user->id,
             'title' => $request->title,
             'url' => $request->url,
@@ -75,29 +75,17 @@ class BookController extends Controller
             'assessment' => $request->assessment,
             'book_color_id' => 1,
         ]);
-        // フラッシュメッセージ分岐
-        if ($book) {
-            $messageKey = 'successMessage';
-            $flashMessage = '登録に成功しました！';
-        } else {
-            $messageKey = 'errorMessage';
-            $flashMessage = '登録に失敗しました。';
-        }
-        // 連続登録用
+
         if ($request->continue_param == 1) {
             $continue = 1;
             $types = Type::all();
             $siteNames = SiteName::all();
             $genres = Genre::all();
     
-            return redirect()
-            ->route('books.create', compact('types','siteNames', 'genres', 'continue'))
-            ->with($messageKey, $flashMessage);
+            return view('books.create', compact('types','siteNames', 'genres', 'continue'));
         }else{
             $books = Book::where('user_id', $user->id)->paginate(10);
-            return redirect()
-            ->route('books.index', compact('books','user', 'shelf'))
-            ->with($messageKey, $flashMessage);
+            return view('books.index', compact('books','user', 'shelf'));
         };
     }
 
@@ -155,7 +143,7 @@ class BookController extends Controller
         $books = Book::where('user_id', $user->id)->paginate(10);
         $shelf = Shelf::where('user_id', $user->id)->first();
         return redirect()
-        ->route('books.index', compact('books','user', 'shelf'))->with('updateMessage', '変更しました。');
+        ->route('books.index', compact('books','user', 'shelf'));
     }
 
     /**
@@ -166,17 +154,7 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-        $book = Book::findOrFail($id);
-        $bookshelf = BookShelf::where('book_id', $book->id);
-        $book->delete();
-        $bookshelf->delete();
-
-
-        $user = Auth::user();
-        $books = Book::where('user_id', $user->id)->paginate(10);
-        $shelf = Shelf::where('user_id', $user->id)->first();
-        return redirect()
-        ->route('books.index', compact('books','user', 'shelf'))->with('deleteMessage', '本を削除しました。');
+        //
     }
 
     public function color_update(Request $request, $id)

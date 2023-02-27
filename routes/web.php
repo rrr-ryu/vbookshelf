@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/shelves/{shelf}',[ShelfController::class, 'show'])->name('shelves.show');
+    Route::put('/shelves/{shelf}', [ShelfController::class, 'place_update'])->name('shelves.place_update');
 });
 Route::middleware('auth')->group(function () {
     Route::post('/bookshelves',[BookShelfController::class, 'store'])->name('bookshelves.store');

@@ -52,4 +52,20 @@ class ShelfController extends Controller
        return view('shelves.show', compact('user', 'shelf', 'book_colors', 'group1', 'group2', 'group3', 'group4'));
     }
     
+    public function place_update(Request $request, $id)
+    {   
+        $bookshelf = BookShelf::where('book_id', $request->book_id)->first();
+        $bookshelf_place = BookShelf::where('place_num', $request->bookshelf_place_num)->first();
+
+        if ($bookshelf_place){
+            return redirect()->back()->with('duplicatePlaceMessage', 'すでに本があります。');
+            
+        }else{
+            $place_num = intval($request->bookshelf_place_num);
+            $bookshelf->place_num = $place_num;
+            $bookshelf->save();
+
+        return redirect()->back();
+        }
+    }
 }
