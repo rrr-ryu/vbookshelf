@@ -23,7 +23,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard',[BookController::class, 'index'])
 ->middleware(['auth', 'verified'])
-->name('books.index');
+->name('book.index');
 
 Route::middleware('auth')->group(function () {
     Route::resource('books', BookController::class)->middleware('auth');
