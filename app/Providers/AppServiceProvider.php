@@ -1,8 +1,10 @@
+
 <?php
 
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Routing\UrlGenerator; // 追加
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,8 +23,11 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    // 変更
+    public function boot(UrlGenerator $url)
     {
-        //
+        if (env('APP_ENV') == 'production') {
+            $url->forceScheme('https');
+        }
     }
 }
