@@ -74,5 +74,87 @@ class BookShelfController extends Controller
         ->route('books.index', compact('books','user', 'shelf'))->with('addShelfMessage', '本棚に追加しました。');
     }
 
+    public function place_update(Request $request, $id)
+    {   
+        $bookshelf = BookShelf::where('book_id', $id)->first();
+        $another_bookshelves = BookShelf::where('place_num', $request->place_num)->where('id', '!=', $bookshelf->id)->first();
+        if ($another_bookshelves) {
+            $user = Auth::user();
+            $shelf = Shelf::where('user_id', $user->id)->first();
+            $bookshelves = BookShelf::where('shelf_id', $shelf->id)->get();
+    
+            //place_numの順番に$book入れて、空いてる番号にはnullを入れる
+            $result = array();
+            for ($i = 1; $i <= 48; $i++) {
+                $bookshelf = $bookshelves->firstWhere('place_num', $i);
+                if ($bookshelf) {
+                    $book = Book::where('id',$bookshelf->book_id)->first();
+                    $result[$i] = $book;
+                } else {
+                    $result[$i] = null;
+                }
+            }
+    
+            //$resultを4つに分ける
+            $group1 = [];
+            $group2 = [];
+            $group3 = [];
+            $group4 = [];
+    
+            foreach ($result as $key => $value) {
+                if ($key >= 1 && $key <= 12) {
+                    $group1[] = $value;
+                } elseif ($key >= 13 && $key <= 24) {
+                    $group2[] = $value;
+                } elseif ($key >= 25 && $key <= 36) {
+                    $group3[] = $value;
+                } elseif ($key >= 37 && $key <= 48) {
+                    $group4[] = $value;
+                }
+            }
+            return redirect()->back()->with('duplicatePlaceMessage', 'すでに本があります。');
+        }
+
+        $user = Auth::user();
+        $shelf = Shelf::where('user_id', $user->id)->first();
+        $bookshelves = BookShelf::where('shelf_id', $shelf->id)->get();
+
+        //place_numの順番に$book入れて、空いてる番号にはnullを入れる
+        $result = array();
+        for ($i = 1; $i <= 48; $i++) {
+            $bookshelf = $bookshelves->firstWhere('place_num', $i);
+            if ($bookshelf) {
+                $book = Book::where('id',$bookshelf->book_id)->first();
+                $result[$i] = $book;
+            } else {
+                $result[$i] = null;
+            }
+        }
+
+        //$resultを4つに分ける
+        $group1 = [];
+        $group2 = [];
+        $group3 = [];
+        $group4 = [];
+
+        foreach ($result as $key => $value) {
+            if ($key >= 1 && $key <= 12) {
+                $group1[] = $value;
+            } elseif ($key >= 13 && $key <= 24) {
+                $group2[] = $value;
+            } elseif ($key >= 25 && $key <= 36) {
+                $group3[] = $value;
+            } elseif ($key >= 37 && $key <= 48) {
+                $group4[] = $value;
+            }
+        }
+        $place_num = intval($request->bookshelf_place_num);
+        $bookshelf->place_num = $place_num;
+        $bookshelf->save();
+        
+       return redirect()
+       ->route('shelves.show', ['shelf' => $shelf]);
+    }
+
     
 }
