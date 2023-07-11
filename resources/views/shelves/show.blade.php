@@ -30,7 +30,7 @@
     </div> 
   @endif
 
-  <div class="py-10 px-5 w-full h-screen flex flex-col md:w-1/3 md:m-auto">
+  <div class="py-10 px-5 w-full h-screen flex flex-col md:w-2/3 md:m-auto">
     <ul id="forth_level" class="flex justify-between w-full h-1/4 border-amber-900 border-8 rounded-t-md pt-1 md:pt-4">
       {{-- 段表示 --}}
       @foreach ($group1 as $book)
@@ -61,7 +61,7 @@
         @break
         @endswitch
         >
-          <span class="h-screen">{{ mb_substr($book->title, 0, 20) }}</span>
+          <span class="h-screen md:text-sm">{{ mb_substr($book->title, 0, 20) }}</span>
         </li>
         {{-- 本詳細表示内容 --}}
           <div class="content" style="display: none">
@@ -155,6 +155,18 @@
               </select>
               <button class="border p-1 rounded-md bg-indigo-200" type="submit">変更する</button>
             </form>
+            <form class="flex" method="POST" action="{{ route('shelves.place_update', ['shelf' => $shelf ]) }}">
+              @csrf
+              @method("PUT")
+              <label class="mr-2" for="bookshelf_place_num">本の場所</label>
+              <select name="bookshelf_place_num" id="bookshelf_place_num" class="w-2/5 mr-2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-4 transition-colors duration-200 ease-in-out">
+                @for ($i = 1; $i <= 48; $i++)
+                <option value="{{ $i }}" >{{ $i }}</option>
+                @endfor
+              </select>
+              <input type="hidden" name="book_id" value="{{ $book->id }}">
+              <button class="border p-1 rounded-md bg-indigo-200" type="submit">変更する</button>
+            </form>
           <a class="text-indigo-600" target="_blank" href="{{ $book->url }}">読みに行く</a>
         </div>
       @else
@@ -208,6 +220,18 @@
               </select>
               <button class="border p-1 rounded-md bg-indigo-200" type="submit">変更する</button>
             </form>
+            <form class="flex" method="POST" action="{{ route('shelves.place_update', ['shelf' => $shelf ]) }}">
+              @csrf
+              @method("PUT")
+              <label class="mr-2" for="bookshelf_place_num">本の場所</label>
+              <select name="bookshelf_place_num" id="bookshelf_place_num" class="w-2/5 mr-2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-4 transition-colors duration-200 ease-in-out">
+                @for ($i = 1; $i <= 48; $i++)
+                <option value="{{ $i }}" >{{ $i }}</option>
+                @endfor
+              </select>
+              <input type="hidden" name="book_id" value="{{ $book->id }}">
+              <button class="border p-1 rounded-md bg-indigo-200" type="submit">変更する</button>
+            </form>
           <a class="text-indigo-600" target="_blank" href="{{ $book->url }}">読みに行く</a>
         </div>
       @else
@@ -259,6 +283,18 @@
                  </option>
                 @endforeach
               </select>
+              <button class="border p-1 rounded-md bg-indigo-200" type="submit">変更する</button>
+            </form>
+            <form class="flex" method="POST" action="{{ route('shelves.place_update', ['shelf' => $shelf ]) }}">
+              @csrf
+              @method("PUT")
+              <label class="mr-2" for="bookshelf_place_num">本の場所</label>
+              <select name="bookshelf_place_num" id="bookshelf_place_num" class="w-2/5 mr-2 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-4 transition-colors duration-200 ease-in-out">
+                @for ($i = 1; $i <= 48; $i++)
+                <option value="{{ $i }}" >{{ $i }}</option>
+                @endfor
+              </select>
+              <input type="hidden" name="book_id" value="{{ $book->id }}">
               <button class="border p-1 rounded-md bg-indigo-200" type="submit">変更する</button>
             </form>
           <a class="text-indigo-600" target="_blank" href="{{ $book->url }}">読みに行く</a>
